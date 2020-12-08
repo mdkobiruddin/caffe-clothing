@@ -15,7 +15,7 @@ Vue.use(Router)
 
 export const routes = [{
   path: '/',
-  redirect: '/dashboard/analytics'
+  redirect: '/apps/newsfeed'
 }, {
   path: '/dashboard/analytics',
   name: 'dashboard-analytics',
@@ -39,9 +39,9 @@ export const routes = [{
 
 function guard(to, from, next) {
   if (store.state.user.isAdmin) {
-    return next()
-  } else if (store.state.user.id) {
     return next('/apps/newsfeed')
+  } else if (store.state.user.id) {
+    return next('/apps/clothesread')
   } else {
     return next('/auth/signin')
   }

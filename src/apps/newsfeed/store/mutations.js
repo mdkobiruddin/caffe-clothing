@@ -40,7 +40,7 @@ export default {
 
     console.log(newsfeed.id)
 
-    db.collection('newsfeed').doc(newsfeed.id).delete().then(function () {
+    db.collection(newsfeed.codePrefix).doc(newsfeed.id).delete().then(function () {
       console.log('Document successfully deleted!')
     }).catch(function (error) {
       console.error('Error removing document: ', error)

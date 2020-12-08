@@ -13,6 +13,7 @@ import FeedbackModule from '../apps/feedback/store'
 import ReportsModule from '../apps/reports/store'
 import NewsfeedModule from '../apps/newsfeed/store'
 import ClothesreadModule from '../apps/clothesread/store'
+import LoadingPlugin from 'vuetify-loading-overlay'
 
 const vuexLocal = new VuexPersist({
   storage: window.localStorage
@@ -21,6 +22,10 @@ const vuexLocal = new VuexPersist({
 
 Vue.use(Vuex)
 Vue.use(VueClipboard)
+Vue.use(LoadingPlugin, {
+  spinnerProps: {},
+  overlayProps: {}
+})
 
 /**
  * Main Vuex Store

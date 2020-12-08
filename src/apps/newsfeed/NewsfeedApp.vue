@@ -51,7 +51,7 @@ export default {
     return {
       drawer: null,
       newsfeed:[],
-      allCategories:['i','b'],
+      allCategories:['i','b','g','w','m'],
       index:0,
       tempHolder:[]
     }
@@ -62,7 +62,7 @@ export default {
     this.fetch()
   },
   methods: {
-    ...mapMutations('newsfeed-app', ['updateNewsfeed', 'addNewsfeed', 'clearNewsfeed']),
+    ...mapMutations('newsfeed-app', ['updateNewsfeed', 'addNewsfeed', 'clearNewsfeed', 'deleteNewsfeed']),
     openCompose(newsfeed) {
       this.$refs.compose.open(newsfeed)
     },
@@ -70,12 +70,36 @@ export default {
       this.addNewsfeed(newsfeed)
     },
   async fetch(){
-  await db.collection(this.allCategories[this.index]).get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
+
+    let allTheItems = [
+      db.collection('i'),
+      db.collection('b'),
+      db.collection('g'),
+      db.collection('w'),
+      db.collection('m'),
+      ]
+
+  for (var a=0; a<allTheItems.length; a++){
+
+   allTheItems[a].onSnapshot((snapshot) => {
+
+  snapshot.docChanges().forEach((change) => {
+
+        let doc = change.doc
+
         //console.log (doc.data())
 
-          console.log (doc.data()['category']+doc.data()['code'])
+
+        if (change.type=='removed'){
+
+          const dTask = {
+            id: doc.id,
+            codePrefix: doc.data()['codePrefix']
+          }
+
+          this.deleteNewsfeed(dTask)
+
+          }else if (change.type=='modified') {
 
                 const aTask = {
                   id: doc.id,
@@ -97,19 +121,41 @@ export default {
                   sortDate: doc.data()['sortDate'],
                 }
 
-                this.tempHolder.push(aTask)
+                this.updateNewsfeed(aTask)
+
+          }else{
+
+                const aTask = {
+                  id: doc.id,
+                  title: doc.data()['title'],
+                  age: doc.data()['age'],
+                  size: doc.data()['size'],
+                  code: doc.data()['code'],
+                  fullCode: doc.data()['codePrefix']+doc.data()['code'],
+                  category: doc.data()['category'],
+                  codePrefix: doc.data()['codePrefix'],
+                  colour: doc.data()['colour'],
+                  completed: doc.data()['completed'],
+                  material: doc.data()['material'],
+                  price: doc.data()['price'],
+                  label: [doc.data()['label']],
+                  images: doc.data()['images'],
+                  user: doc.data()['user'],
+                  qty: doc.data()['qty'],
+                  sortDate: doc.data()['sortDate'],
+                }
+
+                this.addNewsfeed(aTask)
+
+          }
+
+                //this.tempHolder.push(aTask)
 
       })
         //console.log(tempHolder)
-        this.index++
-        if (this.index < this.allCategories.length){
-          console.log('do fetch')
-          this.fetch()
-        }else{
-          this.allDone()
-        }
-    })
 
+    })
+  }
   },
   allDone(){
 

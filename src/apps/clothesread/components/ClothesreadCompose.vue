@@ -1,8 +1,12 @@
 <template>
+  <div>
+  <v-container>
+    <v-row>
+      <v-col cols="4">
   <v-dialog v-model="dialog" width="1000">
     <v-card>
       <v-card-title class="pa-2">
-        {{ isEdit ? 'Edit News...' : 'Add News' }}
+        {{ isEdit ? 'Edit Clothes...' : 'Add News' }}
         <v-spacer></v-spacer>
         <v-btn icon @click="dialog = false">
           <v-icon>mdi-close</v-icon>
@@ -13,127 +17,16 @@
 
       <!-- task form -->
 
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-  >
-  <h2>CAFFE Clothing</h2>
 
-   <v-radio-group
-      v-model="user"
-      row
-      @change="selectPrefix"
-    >
-      <v-radio
-        label="Iris"
-        value="iris"
-      ></v-radio>
-      <v-radio
-        label="Valerie"
-        value="valerie"
-      ></v-radio>
-    </v-radio-group>
-
-   <v-radio-group
-      v-model="category"
-      @change="selectPrefix"
-      row
-    >
-      <v-radio
-        label="Infant"
-        value="infant"
-      ></v-radio>
-      <v-radio
-        label="Boys"
-        value="boys"
-      ></v-radio>
-      <v-radio
-        label="Girls"
-        value="girls"
-      ></v-radio>
-      <v-radio
-        label="Women"
-        value="women"
-      ></v-radio>
-           <v-radio
-        label="Men"
-        value="men"
-      ></v-radio>
-    </v-radio-group>
-
-
-    <h2>{{codePrefix}}</h2>
-    <v-text-field
-      v-model="code"
-      outlined
-      :counter="8"
-      :rules="codeRules"
-      label="Code"
-      required
-    ></v-text-field>
-
-
-    <v-text-field
-      v-model="title"
-      outlined
-      :counter="80"
-      :rules="titleRules"
-      label="Title"
-      required
-    ></v-text-field>
-
-    <v-text-field
-      v-model="age"
-      outlined
-      :counter="60"
-      :rules="ageRules"
-      label="Age"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="size"
-      outlined
-      :counter="100"
-      :rules="sizeRules"
-      label="Size"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="colour"
-      outlined
-      :counter="100"
-      :rules="colourRules"
-      label="Colour"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="material"
-      outlined
-      :counter="100"
-      :rules="materialRules"
-      label="Material"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="qty"
-      outlined
-      :counter="100"
-      :rules="qtyRules"
-      label="Quantity"
-      required
-    ></v-text-field>
-
-      <v-text-field
-      v-model="price"
-      outlined
-      :counter="100"
-      :rules="priceRules"
-      label="Price"
-      required
-    ></v-text-field>
-    </v-form>
-
+    	        <v-row>
+                <v-col cols="6">
+                  <v-row dense class="pb-0 mb-0">
+                    <v-col cols="2" dense  class="pb-0 mb-0">
+                      <h2  class="pb-0 mb-0 rounded-pill blue lighten-2 text-center mt-1 white--text">{{codePrefix+' '+code}}</h2>
+                    </v-col>
+                  </v-row>
+                </v-col>
+    	        </v-row>
 
   <v-row>
     <v-col
@@ -146,7 +39,7 @@
         aspect-ratio="1"
         class="grey lighten-2"
       >
-      <span  @click="deleteImage(anImage)">X</span>
+      <span  @click="deleteImage(anImage)"><v-icon left color="red" large class="pa-1">mdi-delete-circle</v-icon></span>
         <template v-slot:placeholder>
           <v-row
             class="fill-height ma-0"
@@ -165,18 +58,37 @@
 
 
 
+
       <v-divider></v-divider>
  <!-- @vdropzone-mounted="dropMounted" -->
-  <vue-dropzone id="imgDropzone" ref="imgDropzone" :options="dropzoneOptions" @vdropzone-complete="afterComplete"></vue-dropzone>
+  <vue-dropzone id="imgDropzone" ref="imgDropzone" :options="dropzoneOptions" @vdropzone-complete="afterComplete" @vdropzone-processing="dzoneProcessing"></vue-dropzone>
 
 
       <v-card-actions class="pa-2">
         <v-btn outlined @click="close">{{ $t('common.cancel') }}</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="post">{{ $t('common.save') }}</v-btn>
+            <v-btn
+                  :loading="loading"
+                  :disabled="loading"
+                  color="blue"
+                  class="ma-2 white--text"
+                  @click="post"
+                >
+                  Upload Photos
+                  <v-icon
+                    right
+                    dark
+                  >
+                    mdi-cloud-upload
+                  </v-icon>
+              </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
+      </v-col>
+    </v-row>
+  </v-container>
+  </div>
 </template>
 
 <script>
@@ -208,6 +120,7 @@ export default {
         acceptedFiles: ".jpg, .jpeg, .png"
       },
       dialog: false,
+      loading:false,
       title: '',
       time: '',
       likes:[],
@@ -388,7 +301,7 @@ export default {
       }
         this.addNewsfeed(taskNew)
       }
-      this.resetValidation()
+      //this.resetValidation()
       this.close()
     },
 
@@ -476,11 +389,7 @@ export default {
         console.log('doc id '+this.id)
       }
 
-      if (this.imageChanged){
-
-
-
-
+      //if (this.imageChanged){
 
       const uniqueTime = new Date().getTime()
 
@@ -489,6 +398,8 @@ export default {
       let photoDone=0
 
       for (var i=0; i<this.images.length; i++){
+
+         this.loading = true
 
         let imgName = this.images[i].name
 
@@ -531,6 +442,7 @@ export default {
                     price:this.price ??'',
                     complete:this.complete ?? false
                   }).then((done)=>{
+                    this.loading = false
                     this.save()
                     this.$refs.imgDropzone.removeAllFiles()
                   })
@@ -557,6 +469,7 @@ export default {
                     price:this.price ??'',
                     complete:this.complete ?? false
                   }).then((done)=>{
+                    this.loading = false
                     this.save()
                     this.$refs.imgDropzone.removeAllFiles()
                   })
@@ -572,60 +485,59 @@ export default {
 
       }
 
+      // } else {
 
-      } else {
+      //             if (this.id != ''){
 
-                  if (this.id != ''){
+      //             db
+      //             .collection(this.codePrefix)
+      //             .doc(this.id)
+      //             .update({
+      //               label: this.category,
+      //               category: this.category,
+      //               sortDate : this.sortDate,
+      //               code: this.code ??'',
+      //               size: this.size ??'',
+      //               title: this.title ??'',
+      //               age: this.age ??'',
+      //               colour: this.colour ??'',
+      //               images: this.imageUrls ??[],
+      //               material:this.material ??'',
+      //               qty:this.qty ??'',
+      //               user:this.user ??'',
+      //               codePrefix: this.codePrefix ??'',
+      //               price:this.price ??'',
+      //               complete:this.complete ?? false
+      //             }).then((done)=>{
+      //               this.save()
+      //             })
 
-                  db
-                  .collection(this.codePrefix)
-                  .doc(this.id)
-                  .update({
-                    label: this.category,
-                    category: this.category,
-                    sortDate : this.sortDate,
-                    code: this.code ??'',
-                    size: this.size ??'',
-                    title: this.title ??'',
-                    age: this.age ??'',
-                    colour: this.colour ??'',
-                    images: this.imageUrls ??[],
-                    material:this.material ??'',
-                    qty:this.qty ??'',
-                    user:this.user ??'',
-                    codePrefix: this.codePrefix ??'',
-                    price:this.price ??'',
-                    complete:this.complete ?? false
-                  }).then((done)=>{
-                    this.save()
-                  })
+      //             }else{
 
-                  }else{
+      //             db
+      //             .collection(this.codePrefix)
+      //             .add({
+      //               label: this.category,
+      //               category: this.category,
+      //               sortDate : this.sortDate,
+      //               code: this.code ??'',
+      //               size: this.size ??'',
+      //               title: this.title ??'',
+      //               age: this.age ??'',
+      //               colour: this.colour ??'',
+      //               images: this.imageUrls ??[],
+      //               material:this.material ??'',
+      //               qty:this.qty ??'',
+      //               user:this.user ??'',
+      //               codePrefix: this.codePrefix ??'',
+      //               price:this.price ??'',
+      //               complete:this.complete ?? false
+      //             }).then((done)=>{
+      //               this.save()
+      //             })
 
-                  db
-                  .collection(this.codePrefix)
-                  .add({
-                    label: this.category,
-                    category: this.category,
-                    sortDate : this.sortDate,
-                    code: this.code ??'',
-                    size: this.size ??'',
-                    title: this.title ??'',
-                    age: this.age ??'',
-                    colour: this.colour ??'',
-                    images: this.imageUrls ??[],
-                    material:this.material ??'',
-                    qty:this.qty ??'',
-                    user:this.user ??'',
-                    codePrefix: this.codePrefix ??'',
-                    price:this.price ??'',
-                    complete:this.complete ?? false
-                  }).then((done)=>{
-                    this.save()
-                  })
-
-                }
-      }
+      //           }
+      // }
 
     },
     imagePreview() {
@@ -694,6 +606,10 @@ export default {
       console.log('drop mounted')
 
     },
+    async dzoneProcessing (file) {
+      console.log('processing')
+      this.loading = true
+    },
     async afterComplete(file) {
       try {
         //const imageName = uuid.v1();
@@ -701,10 +617,10 @@ export default {
           contentType: "image/png"
         }
 
-
       //this.images = this.$refs.imgDropzone.getAcceptedFiles()
 
-       this.imageChanged = true
+      this.loading = false
+      this.imageChanged = true
 
       console.log ('image done')
 

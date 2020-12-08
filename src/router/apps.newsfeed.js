@@ -16,7 +16,7 @@ function guard(to, from, next) {
   if (store.state.user.isAdmin) {
     return next()
   } else if (store.state.user.role === 'editor') {
-    return next()
+    return next('/apps/clothesread')
   } else {
     return next('/auth/signin')
   }

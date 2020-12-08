@@ -62,8 +62,8 @@ export default {
     labels: 'Labels'
   },
   appnewsfeed: {
-    addTask: 'Add News',
-    newsfeed: 'News',
+    addTask: 'Add Clothes',
+    newsfeed: 'Clothes',
     completed: 'Completed',
     labels: 'Labels'
   },

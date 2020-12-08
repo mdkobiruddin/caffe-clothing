@@ -64,7 +64,7 @@ function guard(to, from, next) {
   if (store.state.user.isAdmin) {
     return next()
   } else if (store.state.user.id) {
-    return next('/apps/newsfeed')
+    return next('/apps/clothesread')
   } else {
     return next('/auth/signin')
   }

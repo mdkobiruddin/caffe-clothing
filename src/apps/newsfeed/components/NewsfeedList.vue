@@ -3,7 +3,7 @@
     <v-text-field
       v-model="filter"
       class="pa-1 py-2 newsfeed-filter elevation-1"
-      placeholder="Filter news"
+      placeholder="Search"
       prepend-inner-icon="mdi-magnify"
       hide-details
       block
@@ -15,7 +15,7 @@
     <v-divider></v-divider>
 
     <div v-if="newsfeed.length === 0">
-      <div class="px-1 py-6 text-center">No news</div>
+      <div class="px-1 py-6 text-center">Loading / No Clothes</div>
     </div>
 
     <v-slide-y-transition
@@ -23,7 +23,8 @@
       group
       tag="div"
     >
-      <div v-for="task in visiblenewsfeed" :key="task.id" @click="$emit('edit-newsfeed', task)" class="d-flex pa-2 task-item align-center" >
+
+      <div v-for="(task, i) in visiblenewsfeed" :key="i" @click="$emit('edit-newsfeed', task)" class="d-flex pa-2 task-item align-center" >
         <!-- @click="$emit('edit-task', task)" was in above line-->
         <!-- <v-checkbox
           :input-value="task.completed"
@@ -47,8 +48,54 @@
               {{ getLabelTitle(label) }}
             </v-chip>
           </div>
-          <div><p></p></div>
-          <div>
+
+
+
+
+          <v-row>
+            <v-col cols="6">
+              <div class="my-2">
+                <p class="d-inline pa-2">Code: {{task.fullCode}}</p>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">Age: {{task.age}}</p>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">Qty: {{task.qty}}</p>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">Material: {{task.material}}</p>
+              </div>
+
+            </v-col>
+
+
+
+            <v-col cols="6">
+              <div class="my-2">
+                <p class="d-inline pa-2">Title: {{task.title}}</p>
+              </div>
+              <div class="my-2">
+                <p class="d-inline pa-2">Size: {{task.size}}</p>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">Colour: {{task.colour}}</p>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">Price: {{task.price}}</p>
+              </div>
+            </v-col>
+
+          </v-row>
+
+
+
+          <!-- <div>
               <p class="d-inline pa-2">Code: {{task.completed}}</p><p class="d-inline pa-2">Title: {{task.title}}</p>
            </div>
            <div>
@@ -59,9 +106,8 @@
           </div>
            <div>
               <p class="d-inline pa-2">Qty: {{task.qty}}</p><p class="d-inline pa-2">Price: {{task.price}}</p>
-          </div>
+          </div> -->
 
-          <br>
   <v-row>
     <v-col
       v-for="anImage in task.images" v-bind:key="anImage.id"

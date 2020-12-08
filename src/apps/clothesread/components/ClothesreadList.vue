@@ -3,7 +3,7 @@
     <v-text-field
       v-model="filter"
       class="pa-1 py-2 clothesread-filter elevation-1"
-      placeholder="Filter news"
+      placeholder="Search"
       prepend-inner-icon="mdi-magnify"
       hide-details
       block
@@ -15,7 +15,7 @@
     <v-divider></v-divider>
 
     <div v-if="clothesread.length === 0">
-      <div class="px-1 py-6 text-center">No news</div>
+      <div class="px-1 py-6 text-center">Loading / No Clothes</div>
     </div>
 
     <v-slide-y-transition
@@ -23,7 +23,7 @@
       group
       tag="div"
     >
-      <div v-for="task in visibleclothesread" :key="task.id" class="d-flex pa-2 task-item align-center" >
+      <div v-for="task in visibleclothesread" :key="task.id" @click="$emit('edit-clothesread', task)" class="d-flex pa-2 task-item align-center" >
         <!-- @click="$emit('edit-task', task)" was in above line-->
         <v-checkbox
           :input-value="task.completed"
@@ -47,15 +47,73 @@
               {{ getLabelTitle(label) }}
             </v-chip>
           </div>
-          <div><p></p></div>
-          <div>
+
+          <v-row>
+            <v-col cols="6">
+              <div class="my-2">
+                <p class="d-inline pa-2">Title: {{task.title}}</p>
+                <v-btn color="primary"
+                v-clipboard:copy="task.title"
+                >Copy
+                </v-btn>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">Price: {{task.price}}</p>
+                <v-btn color="primary"
+                v-clipboard:copy="task.price"
+                >Copy
+                </v-btn>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">SKU: {{task.fullCode}}</p>
+                <v-btn color="primary"
+                v-clipboard:copy="task.title"
+                >Copy
+                </v-btn>
+              </div>
+
+              <div class="my-2">
+                <p class="d-inline pa-2">QTY: {{task.qty}}</p>
+                <v-btn color="primary"
+                v-clipboard:copy="task.qty"
+                >Copy
+                </v-btn>
+              </div>
+
+
+            </v-col>
+
+            <v-col cols="6">
+              <p class="pt-2">Material: {{task.material}}</p>
+
+              <p class="">Size: {{task.size}}</p>
+
+              <p class="">Age: {{task.age}}</p>
+
+              <p class="">Colour: {{task.colour}}</p>
+              <v-btn color="primary"
+              v-clipboard:copy="'Size: '+task.size+'\n\n'+'Age: '+task.age+'\n\n'+'Colour: '+task.colour + '\n\n' + 'Material: '+task.material"
+              >Copy
+              </v-btn>
+            </v-col>
+
+          </v-row>
+
+
+
+
+
+
+          <!-- <div>
               <p class="d-inline pa-2">Title: {{task.title}}</p>
               <v-btn color="primary"
               v-clipboard:copy="task.title"
               >Copy
               </v-btn>
            </div>
-          <div><p></p></div>
+
           <div>
               <p class="d-inline pa-2">Price: {{task.price}}</p>
               <v-btn color="primary"
@@ -63,7 +121,7 @@
               >Copy
               </v-btn>
            </div>
-          <div><p></p></div>
+
           <div>
               <p class="d-inline pa-2">SKU: {{task.fullCode}}</p>
               <v-btn color="primary"
@@ -71,7 +129,7 @@
               >Copy
               </v-btn>
            </div>
-          <div><p></p></div>
+
           <div>
               <p class="d-inline pa-2">QTY: {{task.qty}}</p>
               <v-btn color="primary"
@@ -79,58 +137,74 @@
               >Copy
               </v-btn>
            </div>
-          <div><p></p></div>
+
            <div>
               <p class="d-inline pa-2">Material: {{task.material}}"</p>
           </div>
-          <div><p></p></div>
+
           <div>
               <p class="d-inline pa-2">Size: {{task.size}}</p>
            </div>
-          <div><p></p></div>
+
           <div>
               <p class="d-inline pa-2">Age: {{task.age}}</p>
            </div>
-          <div><p></p></div>
+
            <div>
               <p class="d-inline pa-2">Colour: {{task.colour}}</p>
               <v-btn color="primary"
               v-clipboard:copy="'Size: '+task.size+'\n\n'+'Age: '+task.age+'\n\n'+'Colour: '+task.colour + '\n\n' + 'Material: '+task.material"
               >Copy
               </v-btn>
-          </div>
-          <div><p></p></div>
+          </div> -->
+
+
+
+
+
+
 
 
           <br>
-  <v-row>
-    <v-col
-      v-for="anImage in task.images" v-bind:key="anImage.id"
-      class="d-flex child-flex"
-      cols="4"
-    >
-      <v-img
-        :src="anImage"
-        aspect-ratio="1"
-        class="grey lighten-2"
-      >
-        <template v-slot:placeholder>
-          <v-row
-            class="fill-height ma-0"
-            align="center"
-            justify="center"
-          >
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
+          <v-row>
+            <v-col
+              v-for="anImage in task.images" v-bind:key="anImage.id"
+              class="d-flex child-flex"
+              cols="4"
+            >
+              <v-img
+                :src="anImage"
+                aspect-ratio="1"
+                class="grey lighten-2"
+              >
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular
+                      indeterminate
+                      color="grey lighten-5"
+                    ></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
+            </v-col>
           </v-row>
-        </template>
-      </v-img>
-    </v-col>
-  </v-row>
 
-              <v-btn block v-on:click="downloadPhotos(task.images, task.fullCode)">
+            <v-btn
+            color="green white--text"
+            block
+            >
+              UPLOAD PICTURES
+            </v-btn>
+<p></p>
+
+              <v-btn color="primary white--text"
+              @click.native.stop
+              block
+              v-on:click="downloadPhotos(task.images, task.fullCode)">
               DOWNLOAD PICTURES
             </v-btn>
 
