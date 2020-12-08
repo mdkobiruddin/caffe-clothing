@@ -39,13 +39,7 @@ import 'animate.css/animate.min.css'
 Vue.config.productionTip = false
 
 var firebaseConfig = {
-  apiKey: "AIzaSyBVbUBuVYkdWyLd_Nwgm8NQ7EwE30lZXsk",
-  authDomain: "caffe-clothing.firebaseapp.com",
-  projectId: "caffe-clothing",
-  storageBucket: "caffe-clothing.appspot.com",
-  messagingSenderId: "682792803412",
-  appId: "1:682792803412:web:f10bfefd8fea42195ce1c1",
-  measurementId: "G-4WYYYFJTH9"
+
   };
 
 
