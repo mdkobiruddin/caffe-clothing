@@ -6,12 +6,10 @@
   >
     <!-- Navigation -->
     <v-navigation-drawer
-      permanent
-      expand-on-hover
+      class="elevation-1 hidden-xs-only"
       v-model="drawer"
       app
       floating
-      class="elevation-1"
       :right="$vuetify.rtl"
       :light="menuTheme === 'light'"
       :dark="menuTheme === 'dark'"
@@ -57,8 +55,8 @@
     </v-navigation-drawer>
     <!-- Toolbar -->
     <v-main>
-      <v-container class="fill-height" :fluid="!isContentBoxed">
-        <v-layout>
+      <v-container class="fill-height dense" :fluid="!isContentBoxed" dense>
+        <v-layout class="">
           <slot></slot>
         </v-layout>
       </v-container>

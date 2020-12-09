@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-grow-1 flex-row mt-2 ml-4">
+  <div class="d-flex flex-grow-1 flex-row">
     <v-navigation-drawer
       v-model="drawer"
       :app="$vuetify.breakpoint.mdAndDown"
@@ -19,9 +19,12 @@
         <div class="title font-weight-bold">Newsfeed App</div>
       </v-toolbar>
       <router-view :key="$route.fullPath" class="flex-grow-1" @edit-newsfeed="openCompose"></router-view>
+    
+    <newsfeed-compose ref="compose" />
+    
     </div>
 
-    <newsfeed-compose ref="compose" />
+    
   </div>
 </template>
 

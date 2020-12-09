@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="4">
         <v-dialog v-model="dialog">
-          <v-card class="px-8 pb-4">
+          <v-card class="px-2 pb-0">
             <!-- <v-card-title class="pa-2">
             {{ isEdit ? 'Edit News...' : 'Add News' }}
             <v-spacer></v-spacer>
@@ -22,7 +22,7 @@
             >
             <!-- <h2>CAFFE Clothing</h2> -->
 
-            <v-row>
+            <v-row class="d-none d-sm-flex">
               <v-col cols="3">
                 <v-radio-group
                 v-model="user"
@@ -71,9 +71,9 @@
               </v-radio-group>
 
               </v-col>
-            </v-row>
+              </v-row>
 
-    	        <v-row>
+    	        <v-row class="d-none d-sm-flex">
                 <v-col cols="6">
                   <v-row dense class="pb-0 mb-0">
                     <v-col cols="2" dense  class="pb-0 mb-0">
@@ -162,8 +162,8 @@
             <v-row>
               <v-col
                 v-for="anImage in imageUrls" v-bind:key="anImage.id"
-                class="d-flex child-flex"
-                cols="3"
+                class="d-flex child-flex mt-4 md-3 xs-6"
+                cols="6"
               >
                 <v-img
                   :src="anImage"
@@ -190,9 +190,9 @@
             <v-divider></v-divider>
 
             <!-- @vdropzone-mounted="dropMounted" -->
-            <vue-dropzone id="imgDropzone" ref="imgDropzone" :options="dropzoneOptions" @vdropzone-complete="afterComplete" @vdropzone-processing="dzoneProcessing"></vue-dropzone>
+            <vue-dropzone id="imgDropzone" class="mt-6" ref="imgDropzone" :options="dropzoneOptions" @vdropzone-complete="afterComplete" @vdropzone-processing="dzoneProcessing"></vue-dropzone>
 
-            <v-card-actions class="pa-2">
+            <v-card-actions class="pa-2 mb-8">
               <v-btn outlined @click="close">{{ $t('common.cancel') }}</v-btn>
               <v-spacer></v-spacer>
             <v-btn
@@ -243,8 +243,8 @@ export default {
       loading:false,
       dropzoneOptions: {
         url: "https://httpbin.org/post",
-        thumbnailWidth: 250,
-        thumbnailHeight: 250,
+        thumbnailWidth: 150,
+        thumbnailHeight: 150,
         addRemoveLinks: true,
         acceptedFiles: ".jpg, .jpeg, .png"
       },

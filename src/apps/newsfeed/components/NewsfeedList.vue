@@ -1,5 +1,5 @@
 <template>
-  <v-card class="min-w-0">
+  <v-card class="d-flex flex-grow-1 flex-column">
     <v-text-field
       v-model="filter"
       class="pa-1 py-2 newsfeed-filter elevation-1"
@@ -22,6 +22,8 @@
       v-else
       group
       tag="div"
+      class="flex-grow-0"
+      dense
     >
 
       <div v-for="(task, i) in visiblenewsfeed" :key="i" @click="$emit('edit-newsfeed', task)" class="d-flex pa-2 task-item align-center" >
@@ -52,21 +54,21 @@
 
 
 
-          <v-row>
-            <v-col cols="6">
+          <v-row class="flex-grow-0" dense>
+            <v-col cols="md-6 xs-12" class="">
               <div class="my-2">
                 <p class="d-inline pa-2">Code: {{task.fullCode}}</p>
               </div>
 
-              <div class="my-2">
+              <div class="my-2 d-none d-sm-flex">
                 <p class="d-inline pa-2">Age: {{task.age}}</p>
               </div>
 
-              <div class="my-2">
+              <div class="my-2 d-none d-sm-flex">
                 <p class="d-inline pa-2">Qty: {{task.qty}}</p>
               </div>
 
-              <div class="my-2">
+              <div class="my-2 d-none d-sm-flex">
                 <p class="d-inline pa-2">Material: {{task.material}}</p>
               </div>
 
@@ -74,19 +76,19 @@
 
 
 
-            <v-col cols="6">
+            <v-col cols="md-6 xs-12">
               <div class="my-2">
                 <p class="d-inline pa-2">Title: {{task.title}}</p>
               </div>
-              <div class="my-2">
+              <div class="my-2 d-none d-sm-flex">
                 <p class="d-inline pa-2">Size: {{task.size}}</p>
               </div>
 
-              <div class="my-2">
+              <div class="my-2 d-none d-sm-flex">
                 <p class="d-inline pa-2">Colour: {{task.colour}}</p>
               </div>
 
-              <div class="my-2">
+              <div class="my-2 d-none d-sm-flex">
                 <p class="d-inline pa-2">Price: {{task.price}}</p>
               </div>
             </v-col>
@@ -108,7 +110,7 @@
               <p class="d-inline pa-2">Qty: {{task.qty}}</p><p class="d-inline pa-2">Price: {{task.price}}</p>
           </div> -->
 
-  <v-row>
+  <v-row class="flex-grow-0" dense>
     <v-col
       v-for="anImage in task.images" v-bind:key="anImage.id"
       class="d-flex child-flex"
